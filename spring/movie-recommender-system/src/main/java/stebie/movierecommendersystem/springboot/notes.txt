@@ -1,0 +1,35 @@
+what is springboot?
+    spring boot enables robust creation of apps
+    it provides features like servers, but by itself not an application or server
+
+    autoconfiguration is a feature of spring boot where it provides all the dependencies to start a project
+    for example starter web automatically configures everything needed for a web application
+
+    similarly starter JPA configures basic JPA along with Hibernate
+    spring boot makes the creation of a wep app easier
+    it takes the responsibility of making frameworks compatible with each other
+    you just need to specify the uber dependency like starter web, and spring boot will configure the
+    compatible versions of spring-core, dispatcher servlet, view resolver, logging, security, and validation
+    frameworks along with exception handling and support for internationalization.
+    saving time spent on the initial creation of a project
+
+starter projects
+    have a set of pre-configured dependencies to simplify the build configuration
+
+    Start web is the preferred starter for web apps including RESTful applications using spring MVC
+        it uses tomcat as the default embedded container.
+        the pom.xml file of spring-boot-starter-web shows dependencies like spring-web/webmvc, starter-tomcat/json
+        for conversion to JSON when a web service is invoked.
+
+    Starter test is the dependency for testing spring boot apps with libraries like
+        JUnit Jupiter, Hamcrest, and Mockito
+        spring-boot-starter-test enables the dev to write unit and integration tests.
+        the pom.xml shows dependencies on JUnit, AssertJ, and Mockito
+        it has Hamcrest that, in combination with AssertJ, is used for writing matchers
+
+    Starter JPA is another starter project
+        JPA is the interface for the Hibernate framework
+        starter-data-jpa is used for Spring Data JPA with Hibernate
+        pom.xml shows dependency on spring-boot-starter-aop, spring-boot-starter-jdbc, hibernate-core, and transaction-api
+
+    

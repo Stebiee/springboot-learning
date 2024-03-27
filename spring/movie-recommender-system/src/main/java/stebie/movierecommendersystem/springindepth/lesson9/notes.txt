@@ -1,0 +1,2 @@
+mixing bean scope
+like a bean with singleton scope but prototype dependency

@@ -1,0 +1,7 @@
+managing bean init and life cycle
+also got into using a logger instead of sout to the console
+import org.slf4j.Logger;
+@PostConstruct to set a method which executes after dependencies are all loaded
+    loading data, setting up connections
+@PreDestroy to set a method which executes right before the bean is destroyed
+    releasing resources, closing connections

@@ -1,0 +1,74 @@
+Beans
+@Component
+are the objects of classes that are managed by spring.
+spring manages the dependencies of an object and instantiates the objects after
+injecting the required dependencies.
+
+
+Autowiring @Autowired
+is the process of identifying the dependency, looking for a match and then populating
+the dependency is called auto wiring.
+the decorator @Autowired tells Spring to find and inject a collaborating bean into another.
+warning this throws an error if two beans with the same type are found.
+you would need to specify which is to be used
+
+
+Dependency Injection
+is the process where spring looks up the beans that are needed for a particular bean to function
+and injects them as a dependency
+this can be done with a constructor or setter method
+
+
+Inversion of Control
+previously the class decided when to create the dependency and how to create it. for example
+an Engine class is dependency on Vehicle class which creates its object
+spring takes this responsibility from the class and creates the object itself
+dev just mentions the dependency
+
+IoC container is a framework that provides the inversion of control functionality
+it manages the beans it would create an instance of Engine then Vehicle
+then injects the Engine as a dependency into the Vehicle object
+there are two implementations of IoC container
+a BeanFactory and an ApplicationContext
+bean factory is the simplest and used when memory may be a concern
+
+@Primary
+is a tag used to denote a bean should be used if another bean of the same type is found
+this is auto wiring by type
+
+@Autowired
+auto wiring by name where the bean is specified to be used by name
+while creating an object the dependency is injected by matching the name of the
+reference variable to the bean name. dev has to insure name is the same as bean name
+note a @Primary tag would still take precedence over by name
+
+@Qualifier("beanName")
+or
+@Component("beanName")
+the bean whose name is specified in the qualifier is injected as a dependency
+this can be used to in a scenario when we have multiple objects of the same type
+and autowiring by name cannot be used since var name doesn't match any bean names
+note qualifiers take precedence over primary tagged beans
+
+Constructor Injection
+set the @Autowired injection on the constructor
+if the @Qualifier is used must be put in the constructor parameter or error will throw error
+note auto wired tag is optional when on the constructor
+
+Setter Injection
+set the @Autowired tag is put on a setter method for a bean
+@Qualifier can be used on setter
+
+Field injection is also possible and is what was done in the previous examples
+this is when @Autowired was used on a bean field
+this type is most simple but not recommended because it is unsafe and makes testing inconvenient
+
+setter injection is more readable, and it specifies the name of the dependency as the method name
+but the number of setter methods increases with each increasing dependency
+setter injection is used to avoid the BeanCurrentlyInCreationException raised in the case of a circular dependency
+setter injection injects when they are needed
+constructor injects when context is loaded
+
+constructor injection ensures that all dependencies are injected because an object cannot be constructed
+until all its dependencies are available
+it also ensures immutability as the state of the bean cannot be modified after creation

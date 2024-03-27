@@ -1,0 +1,270 @@
+the term bean scope refers to the lifecycle and the visibility of beans
+it tells how long a bean lives, how many instances, and how the bean is shared
+spring manages the entire life cycle of singleton beans
+but not prototype as there can be many leading to container being overwhelmed
+it is the responsibility of the dev to handle bean lifecycle for prototype beans
+
+    there are the annotations from spring and CDI from javax
+    the CDI annotations are preferred as they are part of the Java EE standard and not limited to spring framework
+
+Spring vs gang of four singleton
+if GoF singleton is one per JVM
+in spring its one bean per application context
+
+There are 6 types of bean scopes
+singleton - any application, created before requested
+prototype - any application, created when requested
+request - web application only
+session - web application only
+application - web application only
+websocket - web application only
+
+Singleton scope
+    the default scope of a bean is singleton, in which only one instance of the bean is created and cached in memory
+    multiple requests for the bean will return a shared reference to the same bean.
+    best when stateless beans are required
+    note singleton scope minimizes the number of objects created so the scope
+    should only be changed where necessary. more objects means more memory and garbage collection
+
+@Scope("prototype") or @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+Prototype scope
+    results in the creation of new beans whenever a request for the bean is made to the app context
+    best when the state of a bean needs to be maintained
+
+@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode=ScopedProxyMode.TARGET_CLASS)
+Proxy
+    right now spring cannot inject the prototype bean into the singleton bean after it's been created
+    one of the solutions is using a proxy
+    declare the bean with the prototype scope as a proxy using the proxyMode element inside the @Scope annotation
+    the proxy adds a level of indirection. when request is made for prototype from spring, a proxy is created
+    and is returned by the app context. proxy mode allows Spring container to inject a new
+    object into the singleton bean when a method on the proxy object is called
+    note this stops the prototype dependency from being called on singleton context creation
+
+@Lookup
+    is another method which can return an instance of autowired prototype bean
+    is the same as beanFactory.getBean(name.class)
+
+@SpringBootApplication
+    is a combination of @Configuration @EnableAutoConfiguration @ComponentScan
+    by default searches the package where it is present as well as sub-packages
+    if a bean is present in a package other than the base or its sub packages, it won't be found
+    to find this bean use @ComponentScan and provide the path of the package where spring should analyze for beans
+    note will not find beans in a separate package unless using component scan
+
+@ComponentScan(basePackages="package.name.path")
+    spring does a component scan to search for the beans that it manages
+    the annotation without any argument tells spring to scan the current package or any sub-package that may exist
+    detecting all classes with @Repository @Service and @Controller annotations
+
+    scanning includes all beans and there are filters you can use
+    include and exclude filters
+    FilterType.ANNOTATION, FilterType.ASSIGNABLE_TYPE, FilterType.ASPECTJ, FilterType.REGEX, FilterType.CUSTOM
+    custom filters find only those beans whose names are a certain length
+    regex evaluates to all the beans declared with component annotation
+
+@PostConstruct and @PreDestroy
+    spring manages the entire lifecycle of beans it provides post initialization and pre destruction callback methods
+    from those custom init and cleanup code can be written
+
+@PostConstruct
+    a method with this annotation is executed after dependencies have been populated, similar to an init() method
+    the annotation tells spring to call the method once the object has been created, examples would be
+    init contents of a bean, load data, establish a database connection, or connect to a web server
+    note method can have any name and its return type is void.
+@PreDestroy
+    executed right before a bean is destroyed. called when bean is being removed from the container.
+    cleanups should be performed here, release resources, close connection to a database.
+
+the logger slf4j offers flexibility and well as better output with timestamps name of thread and class.
+this is great for debugging and troubleshooting
+
+@Named @Inject @Scope @Singleton
+Context and Dependency Injection (CDI) annotations
+    are annotations for dependency injection
+    different contexts and dependency injection frameworks provide functionality for these annotations
+    @Named is used to define a bean and @Injects is used for autowiring one bean into another
+    to be able to use CDI annotations the dependency must be added to the pom.xml file
+    <dependency>
+    	<groupId>javax.inject</groupId>
+    	<artifactId>javax.inject</artifactId>
+    	<version>1</version>
+    </dependency>
+    I had to rebuild project not sure
+    this dependency is automatically downloaded when saved and is in the maven dependencies folder
+    as javax.inject-1.jar this jar lists the annotations defined by CDI
+    note the javax.inject package is not included in the JDK but is in the EE distribution of Java
+
+@Named
+    in Spring a bean is created with @Component however, it also supports the @Named annotation
+    @Named and @Component are interchangeable
+
+@Inject
+    spring has @Autowired for injection but is also supports the CDI @Inject annotation
+    @Inject and @Autowired are interchangeable
+
+@Qualifier
+    used to break ties if two beans of the same type qualify to be injected
+
+@Scope
+    is used to set the scope of a bean, similar to the @Scope annotation in Spring
+    setting scope like prototype
+
+@Singleton
+    used to explicitly define the scope
+    in spring this was done in the @Scope annotation
+
+using core spring
+    in the dependencies springboot-starter is commented out and
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+    </dependency>
+    are added spring-context is used to get the application context
+@Configuration
+    @SpringBootApplication cannot be used since using spring core so
+    @Configuration is used, import org.springframework.context.annotation.Configuration
+@ComponentScan is needed since spring will not scan the package for beans anymore
+AnnotationConfigApplicationContext is used to get the application context.
+application context will need closing in main
+
+configuring Spring applications with xml
+    first step is creating an XML file that contains the bean definitions
+    spring will read this file and know which beans to create and manage
+    for this project done at src/main/resources and named appContext.xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    </beans>
+    provides the metadata for validating the tags
+    the bean tag is used to define beans
+    for every bean you need to specify the fully qualified class name as well as a reference id
+    fully qualified class name is the package name and class name
+    the id can be a nickname not necessarily the class name
+    <bean id = "className"
+        class = "fully.qualified.ClassName">
+    </bean>
+    this can be done for every bean in the project
+    and translates to ClassName className = new ClassName();
+
+    the IoC container will read the appContext.xml file and create objects of the classes mentioned in it
+    then it will call the constructor of the class to create the object by giving it the name set as the id
+
+    inside of main() app context is created from
+    ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("appContext.xml");
+
+    and can get a list of the beans with
+    appContext.getBeanDefinitionNames()
+
+    and retrieve a bean with
+    appContext.getBean("beanName", Bean.class);
+
+    dependency injection in xml
+    create getter and setter for the dependency in the java program.
+    in the bean add a property tag
+    <property name="anyName" ref="beanName"/>
+
+    if the bean has a constructor however, set the dependency inside and in xml bean
+    <constructor-arg ref="beanName"/>
+
+    note the context should be closed at the end of use
+
+    if you wanted to use java annotations instead of the bean tag in xml
+    use @Component for the beans
+    by default annotating isn't enough and component scan needs to be triggered
+    set beans to have these properties and then use the tag <context: component-scan>
+
+    another tage detects dependency injection annotations like @Autowired and @Qualifier but not @Component
+    this is the <context:annotation-config> tag
+
+    <beans xmlns="http://www.springframework.org/schema/beans"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:context="http://www.springframework.org/schema/context"
+            xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="stebie.movierecommendersystem.springindepth.lesson14"/>
+    <context:annotation-config>
+    </beans>
+
+stereotype annotations
+    the advantage of stereotype annotations is that is in Aspect Oriented Programming AOP
+    we can identify the annotations and add functionality for annotations
+    can classify components in different categories and apply specific logic
+    specifically for logging, where objects with @Repository can be logged since they are database related
+
+    beans can be declared with @component or <bean> tag but there are other ways to declare beans
+    @Bean to declare in an annotation class or by using
+    @Controller used for web request handling classes in Spring MVC
+    @Service used in service classes that perform business logic
+    @Repository a data access class maybe used to interact with databases or other data sources
+    which are used at different layers in an enterprise application
+
+    typical application layers
+    (web layer) interacts with client program
+    Web Interface
+
+    (service layer) provides an abstraction between web and data access layer, takes care of business logic
+    Service Interface
+    Service Implementation
+
+    (data access layer) interacts with a database or an external interface.
+    DAO Interface
+    DAO Implementation
+
+    Database
+
+    @Component is the most generic annotation and can be used for any layer
+    but @Controller @Service @Repository exist to be used on specific layers
+
+    @Controller, specialized form is @RestController
+        is used to define a controller in the web layer. Spring scans a class with this tag to
+        find methods that are maped to different HTTP requests. It makes sure that the right view is
+        rendered to the user.
+
+    @Service
+        is used in the business layer for objects that define the business logic
+        it marks a class as a service provider
+
+    @Repository
+        is used in the data layer to encapsulate storage, retrieval, and search in a typical database
+        can also be used for other external sources of data.
+
+applications have lots of configuration and keeping it separate from the code is good practice
+if the property file is inside the jar when built it can't be changed without uncompressing and rebuilding the jar
+spring provides a way to externalize configuration using properties files
+
+for example a database connection in the data layer might be different depending on the environment
+the application can be built with a default environment and when needed can be changed in an external file
+
+application-properties file
+    is a text file that defines the key-value pair for a property
+    the name of the property follows a convention where the class name is used with the property name
+    to disambiguate properties with the same name in different classes
+
+    create a file app.properties in the resources folder
+    for this example the property file will dynamically fetch the value of favMovie from implementation
+    every line in this file defines a value for a property key using =
+    convention is to use the fully qualified name of the variable
+
+    fully.qualified.name = Finding Dory
+
+    we can now dynamically fetch the favoriteMovie value from the file using
+@Value(${fully.qualified.name})
+    this annotation can be used with the constructor or setter method or directly on the field
+
+    if the property value is not found in the properties file spring will throw IllegalArgumentException
+    a way to avoid this is providing a default value for the property
+@Value(${recommender.implementation.favMovie: Cars})
+
+@PropertySource("classpath:app.properties")
+    is used to mention the name of the file from where to fetch values
+    by default this is done from the class path but external sources need to be stated
+    done in the main class with the @SpringBootApplication annotation

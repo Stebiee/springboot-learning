@@ -1,0 +1,3 @@
+xml Application Configuration
+removing all java annotations like @Component
+and using the xml file for beans and dependency injection

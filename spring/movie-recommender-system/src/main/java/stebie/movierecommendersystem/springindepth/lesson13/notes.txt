@@ -1,0 +1,19 @@
+using the spring core dependency
+in pom.xml
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot- starter</artifactId>
+</dependency>
+
+is replaced with
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+</dependency>
+
+then to get application context
+<dependency>
+ <groupId>org.springframework</groupId>
+ <artifactId>spring-context</artifactId>
+</dependency>
+is also added

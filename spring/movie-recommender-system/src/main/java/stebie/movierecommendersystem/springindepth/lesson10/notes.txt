@@ -1,0 +1,1 @@
+component scan and scope spring can find beans
