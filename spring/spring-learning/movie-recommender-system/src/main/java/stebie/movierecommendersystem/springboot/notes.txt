@@ -32,4 +32,4 @@ starter projects
         starter-data-jpa is used for Spring Data JPA with Hibernate
         pom.xml shows dependency on spring-boot-starter-aop, spring-boot-starter-jdbc, hibernate-core, and transaction-api
 
-    
+test
