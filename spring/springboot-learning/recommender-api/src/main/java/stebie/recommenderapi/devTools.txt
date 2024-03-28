@@ -1,0 +1,21 @@
+so far created a Get controller to output a list of movies in JSON format on http request
+but if a change is made to the controller a server restart is required to go into effect
+leading to the Devtools dependency
+
+Spring Boot has a Developer Tool that supports live reloads
+add below to the pom.xml file
+    <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+    if the scope of this dependency is limited to runtime using the tag
+    <scope>runtime</scope> it will not be packaged in the jar
+
+    had to ensure advanced settings under compiler allow auto-make is enabled
+    and file, setting, build, execution, deployment, compiler is set build proj. automatically
+    after a project restart any update to the code will change live
+
+    must run in the terminal not with intelliJ run button command is
+    mvn spring-boot:run
+
+

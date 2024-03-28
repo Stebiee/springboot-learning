@@ -1,0 +1,59 @@
+Actuator
+    is a spring boot feature that provides monitoring features for the application during
+    development and after deployment. it gives metadata about the app like beans configured
+    , how autoconfiguration has worked, how many times a specific service is called, or failed
+
+Actuator dependency
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+HAL browser dependency
+    one more dependency needs to be added. The actuator exposes a lot of REST services that
+    are compliant with the HAL standard. HAL browser will be used to view the data provided by the services
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-rest-hal-browser</artifactId>
+        <version>3.3.6.RELEASE</version>
+    </dependency>
+
+    now when visiting local host 8080, the HAL browser will be displayed
+    and can be browsed using the actuator
+    localhost:8080/actuator
+    this endpoint links 2 urls for health and info
+
+    /info is used to display custom information about the application, will be empty unless written to the url
+    /health is a JSON file that shows metrics related to the app health like status, disk space, embedded DB info
+
+    the Actuator calculates metrics related to application performance and makes them available as
+    a new endpoint like /health without needed to write any controllers
+    these metrics are deployed with the application, app url will also have /health url
+    this can be changed in application.properties file with
+    Management.server.port = 8081
+
+Actuator endpoints
+    by def. only /health and /info are available, other endpoints are disabled, to enable web exposure of all endpoints
+    management.endpoints.web.exposure.include=*
+    in the application.properties file
+
+    now when the application is run, and Actuator is viewed, many other endpoints will be available like
+
+    /auditevents shows info like validated users, how many failed auth
+    /beans shows all beans configured in the app
+    /conditions shows positive and negative matches for autoconfigure
+    /httptrace shows the last 100 reuests that were executed, with the response that was returned
+    /mappings shows all the URLs for @RequestMapping
+    /metrics lists valid metrics, adding jvm.memory.used shows amount of memory used
+    /shutdown when enabled lets the app shutdown gracefully
+    add to application.properties
+    management.endpoint.shutdown.enabled=true
+
+View HAL browser at
+    localhost:8080/browser/index.html#
+
+    enabling alot of tracking and monitoring has an impact on performance
+    enabling httptrace for all requests will hamper performance
+    be careful when enabling endpoints since they expose sensitive information about the application
+    type
+    /actuator/beans to view the beans in an app

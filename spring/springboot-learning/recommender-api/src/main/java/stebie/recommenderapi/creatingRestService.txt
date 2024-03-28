@@ -34,7 +34,7 @@ starter projects
 
 Spring Web dependency adds jars to maven dependency which are useful when creating REST applications
 
-Spring Boot provides an embedded server, http://localhose:8080
+Spring Boot provides an embedded server, localhost:8080
 initially there is an error from not having an /error defined
 
 @RestController
@@ -59,16 +59,16 @@ Mapping Requests
 
     GET, POST, PUT are types of HTTP requests
     @RequestMapping maps the HTTP request and URI to a method in the controller.
-    since currently wanting to handle GET request shortcutmapping
+    since currently wanting to handle GET request shortcut mapping
+
     @GetMapping can be used on the method to handle the GET request
     @GetMapping("/movies")
     or
     @RequestMapping(method=requestMethod.GET, value="/movies")
     this will map the /movies URI to the getAllMovies method and convert the list to a JSON response
-
     the REST controller is now ready.
-    now when visiting http://localhost:8080/movies
-    there is no error but a JSON response of the list of movies
+    now when visiting URI /movies at localhost:8080/movies
+    there is a JSON response of the list of movies
 
 Recap
     created a controller while everything else was created by springboot
@@ -95,5 +95,5 @@ Recap
         negative matches
         it also shows all the things that were not autoconfigured
 
-        
+
         why some beans were not created
