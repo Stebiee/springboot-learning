@@ -1,0 +1,41 @@
+JDBC involves a lot of boilerplate code which is required just to get the application working.
+simple queries are tedious to write since many steps are required to interact with the db
+
+the steps to connect a db
+    establishing a connection
+    creating a prepared statement or query
+    execute the query
+    loop through the result set to get the objects
+    final step is to close the connection
+
+Spring JDBC support makes interacting with a db easy. since with spring boot, connection is done automatically
+and the data source is automatically configured.
+the connection is also automatically closed.
+JdbcTemplate makes it easy to write and execute a query.
+it also provides the BeanPropertyRowMapper which maps a table to a bean
+
+    user----query--->(JdbcTemplate)----->(Database)
+    user<---result---(JdbcTemplate)<-----(Database)
+                         |  /\
+                         |  |
+             result set  |  | object
+                        \/  |
+                     (Row Mapper)
+
+
+this lesson is to write a query to return all rows from the Player table
+    learn how to map the data coming from the db to a bean in the app.
+    modify the query to return a row that matches an input argument
+
+Defining Player bean
+    the Player table has already been created in schema.sql
+    now a class Player needs to be created with the same fields as the db table
+
+    next create arg/no-arg constructors, getters, setters as well as a toString method for the fields
+    noarg constructor is required by the BeanPropertyRowMapper
+
+Creating DAO class
+    PlayerDao class will be used to interact with the db,
+    this class belongs to the data layer so @Repository annotation is used
+
+    this class will contain methods that execute queries on the Player table
