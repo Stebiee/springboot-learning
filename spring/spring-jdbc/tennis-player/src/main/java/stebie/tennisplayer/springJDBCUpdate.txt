@@ -1,0 +1,26 @@
+JdbcTemplate
+    is a class with contains methods like
+    .update(), .query(), .queryForObject()
+    which can be used to SELECT, INSERT, UPDATE, DELETE
+    and is classified as the DML
+    data manipulation language, which is for manipulating data in a table
+
+SELECT
+jdbcTemplate.query("SELECT * FROM table", new BeanPropertyRowMapper<Table>(Table.class
+
+INSERT
+jdbcTemplate.update("INSERT INTO TABLE (ID, Field1, Field2)" +
+                "VALUES (?, ?, ?)",
+                new Object[]{table.getId(), table.getField1(), table.getField2()});
+
+UPDATE
+jdbcTemplate.update("UPDATE TABLE SET Field1 = ?, Field2 = ? WHERE ID = ?",
+                    new Object[]{
+                        table.getField1(),
+                        table.getField2(),
+                        table.getId()
+                    });
+                    }
+
+DELETE
+jdbcTemplate.update("DELETE FROM TABLE WHERE ID = ?", new Object[] {id});

@@ -39,3 +39,4 @@ Creating DAO class
     this class belongs to the data layer so @Repository annotation is used
 
     this class will contain methods that execute queries on the Player table
+

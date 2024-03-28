@@ -7,8 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.sql.Date;
-
 
 @SpringBootApplication
 public class TennisPlayerApplication implements CommandLineRunner {
@@ -24,25 +22,17 @@ public class TennisPlayerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// view players
-		//logger.info("\nAll Players Data: {}", dao.getAllPlayers());
+			testTableCreation();
+	}
 
-		// view player by id
-		//logger.info("\nPlayer with ID 3: {}", dao.getPlayerById(3));
+	private void testDelete() {
+		// deleting a player
+		logger.info("\nBefore delete: {}", dao.getAllPlayers());
+		logger.info("Deleting Player with ID 2: {}", dao.deletePlayerById(2));
+		logger.info("\nAfter delete: {}", dao.getAllPlayers());
+	}
 
-		// insert a player at id
-		logger.info("Insertion of Player at 4: {}", dao.insertPlayer(new Player(
-							4, "Roger Federer", "Swiss",
-							new Date(System.currentTimeMillis()), 103)));
-		// view player by id
-		logger.info("Players with Id 4: {}", dao.getPlayerById(4));
-
-		// Updating a player
-		logger.info("Updating Player 4: {}", dao.updatePlayer(new Player(
-							4, "Roger Federer", "Swiss",
-							Date.valueOf("2000-02-27"), 104)));
-
-		// view player by id
-		logger.info("Players with Id 4: {}", dao.getPlayerById(4));
+	private void testTableCreation() {
+		dao.createTournamentTable();
 	}
 }

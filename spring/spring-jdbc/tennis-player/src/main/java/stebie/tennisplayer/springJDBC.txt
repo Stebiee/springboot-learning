@@ -8,6 +8,7 @@ the dev can focus on the SQL queries.
 using JdbcTemplate a java app can store and retrieve objects of a class to a table in the database.
 the template is a middle man between the app and the database
 
+
 Spring Boot simplifications with JDBC
     only the dependency spring-boot-starter-jdbc is needed in the pom.xml
     Spring Boot automatically inits the datasource bean instead of creating with xml or java config in spring
