@@ -1,0 +1,33 @@
+Spring also offers the MVC framework for developing web applications
+
+Spring framework
+    Spring boot and MVC are both components of the spring framework.
+    Spring offers dependency injection and IoC, which is good for working with other frameworks
+    it defines beans using different annotations and autowires them
+    helps build loosely coupled applications that are easy to unit test. It also eliminates plumbing code, exception handling etc.
+
+Spring MVC
+    is an HTTP oriented spring framework, which is concerned with developing web applications
+    it uses the Model-View-Controller MVC design pattern to have separation of concerns
+(Model, service/repositories)------>(Provides data/results)-------->(View)
+   |                                                                   |
+   ^                                                                   |
+(update/request data)                                                  |
+   ^                                                                   |
+   |                                                                   |
+   |                                                                   |
+(Controller)<----------<------(request)-------<---------<--------(person sees)
+
+    The DispatcherServlet is the front controller that handles all requests while the View Resolver
+    is resolving view names to physical views. this decoupling makes dev. of web apps and RESTful services simple
+    because the model, view, and controller operate without dependency
+    when previously built a web service with spring boot, it internally made use of Spring MVC.
+    which helped create a web app that is scalable and testable
+
+Spring Boot
+    is designed to solve configuration issues, by autoconfiguring many dependencies based on the type of app
+    offers pre-configured projects to bootstrap an app in few steps
+    the DispatcherServlet, View Resolver, Data Source, Transaction Manager, etc. get configured automatically.
+    Spring Boot configures compatible versions of the dependencies needed. as well as monitoring features.
+    helps kickstart the project by bringing in all the dependencies.
+    however spring boot offers a biased view and has strong preferences about the dependencies it uses
