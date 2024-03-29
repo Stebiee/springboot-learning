@@ -22,7 +22,7 @@ public class TennisPlayerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-			testTableCreation();
+			testPlayerByNationality();
 	}
 
 	private void testDelete() {
@@ -34,5 +34,9 @@ public class TennisPlayerApplication implements CommandLineRunner {
 
 	private void testTableCreation() {
 		dao.createTournamentTable();
+	}
+
+	private void testPlayerByNationality() {
+		logger.info("\nFrench Players: {}", dao.getPlayerByNationality("France"));
 	}
 }

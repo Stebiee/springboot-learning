@@ -66,9 +66,15 @@ public class PlayerDao {
 
     }
 
+    public List<Player> getPlayerByNationality(String nationality) {
+        String sql = "SELECT * FROM PLAYER WHERE NATIONALITY = ?";
+
+        return jdbcTemplate.query(sql, new PlayerMapper(), new Object[] {nationality});
+    }
+
 
     @Repository
-    private static class PlayerMapper implements RowMapper<Player> {
+    public static class PlayerMapper implements RowMapper<Player> {
 
         @Override
         public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
