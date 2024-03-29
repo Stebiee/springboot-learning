@@ -38,5 +38,9 @@ public class TennisPlayerApplication implements CommandLineRunner {
 		player.setBirthDate(Date.valueOf("1990-09-01"));
 		logger.info("\n\n>> Updating id 2 DOB: {}\n", repo.updatePlayer(player));
 		logger.info("\n\n>> Player with id 2: {}\n", repo.findPlayerById(2));
+
+		// deleting player
+		logger.info("\n\n>> Deleting Player with id 1\n");
+		repo.deletePlayerById(1);
 	}
 }

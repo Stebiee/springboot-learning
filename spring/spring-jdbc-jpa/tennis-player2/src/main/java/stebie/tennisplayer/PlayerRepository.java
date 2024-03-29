@@ -23,4 +23,9 @@ public class PlayerRepository {
     public Player findPlayerById(int id) {
         return entityManager.find(Player.class, id);
     }
+
+    public void deletePlayerById(int id) {
+        Player player = findPlayerById(id);
+        entityManager.remove(player);
+    }
 }

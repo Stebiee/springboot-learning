@@ -68,3 +68,8 @@ EntityManager.find() for SELECT query
     getPlayerById() is called in run() from the application
 
 EntityManager.remove() for DELETE query
+    is used to delete a row from the table
+    this is a two-step process
+        first, store the object using the find() method and passing the id of object
+        then pass the object to the remove() method, which is a void method
+
