@@ -1,0 +1,33 @@
+SELECT Query
+    first method returns all rows from the Player table
+    getAllPlayers() which returns a List<Player>
+        will execute SELECT
+        will autowire the JdbcTemplate as a field in PlayerDao class
+        the query method of JdbcTemplate is used to execute the query
+
+        a row mapper is used to match the data coming from the db to the attributes of the bean
+        BeanPropertyRowMapper<>() is the default row mapper defined in spring
+Executing SELECT
+    to run the query CommandLineRunner is used, and is an interface in Spring Boot which has only one method
+    called run(). it is launched as soon as the context is loaded.
+    this application implements CommandLineRunner. and will autowire the PlayerDao class to use an
+    object of this class to call the getAllPlayers() method inside the run()
+    a logger will display the list of players returned
+
+    getAllPlayers() returns List<Player>, Players in the Player table
+    getPlayerById(int id) returns a Player, of the id passed as an argument
+
+jdbcTemplate.query(sql, new BeanPropertyRowMapper<Player>(Player.class))
+
+public List<Player> getAllPlayers() {
+        String sql = "SELECT * FROM Player";
+
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Player>(Player.class));
+    }
+
+public Player getPlayerById(int id) {
+    String sql = "SELECT * FROM Player WHERE ID =
+    return jdbcTemplate.queryForObject(sql,
+            new BeanPropertyRowMapper<Player>(Player.class),
+            new Object[] {id});
+}

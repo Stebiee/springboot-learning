@@ -1,0 +1,25 @@
+JdbcTemplate
+    is a class which contains methods like
+    .execute()
+    which can be used to create a table
+    this is DDL or Data Definition Language
+
+Create a table Query
+    for example creating a Tournament table to store details of a tennis tournament
+    rows would be id, name, location
+
+    public void createTournamentTable() {
+        String sql = "CREATE TABLE TOURNAMENT (ID INTEGER, NAME VARCHAR(50)," +
+                "LOCATION VARCHAR(50), PRIMARY KEY (ID))";
+
+        jdbcTemplate.execute(sql);
+        System.out.println("Table created successfully");
+    }
+
+    then calling the method in the run() from implementing CommandLineRunner to the app
+    @Override
+    public void run(String... args) throws Exception {
+        dao.createTournamentTable();
+    }
+
+    this can be viewed from the h2 console

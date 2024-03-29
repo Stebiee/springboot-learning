@@ -1,0 +1,33 @@
+Configuring db connection
+    the in memory db H2 has automatically been configured. the url can be found from console log
+    this value is randomly generated each server restart
+    to make the url a constant configure in application.properties
+*   spring.datasource.url = jdbc:h2:mem:testdb
+
+    the next task is connecting to the h2 db
+    Spring Boot autoconfigures the H2 dependency and a connection to the db
+    the H2 console can be enabled in application.properties
+*   spring.h2.console.enabled = true
+
+    db can be viewed at localhost:8080/h2-console
+    on the login page make sure the JDBC URL is the same as defined in application.properties
+    generic h2 embedded for setting
+    driver class is org.h2.Driver
+    url: what is set in application properties usually jdbc:h2:mem:testdb
+    username: sa
+    password: usually blank
+
+creating a table
+    since the db is in memory, the table will be lost after the server restarts
+    so best to create things like tables within a sql file
+    this is created in src/main/resources/schema.sql
+    this file is called every app launch, and contains all DDL (data definition language) queries
+    this proj creates a table called Player with 5 columns
+
+view a table
+    SELECT * FROM table;
+
+inserting data.
+    data can be inserted from the h2 console. but since it resets best from file
+    another SQL file is created in src/main/resources/data.sql
+    which contains the DML (data manipulation language) queries, like insert

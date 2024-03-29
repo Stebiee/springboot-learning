@@ -1,0 +1,33 @@
+leaning how to update an existing record in a database
+
+JdbcTemplate.update(sql, new Object[]{params})
+    is used to execute INSERT as well as UPDATE queries.
+    to update a record in the table create a method
+    updatePlayer() which is similar to insertPlayer() only diff. is in the query
+    changing INSERT to UPDATE
+
+    the updatePlayer takes a Player object and update the row corresponding to the id
+    recap: update from JdbcTemplate returns an int for the number of rows affected
+
+execution of UPDATE query
+    to execute in the run method from implementing CommandLineRunner
+    initialize a Player object with the values we want to update and pass it to the jdbcTemplate.updatePlayer()
+    recap: updatePlayer() will return an in representing amount of rows affected
+
+method in dao
+public int updatePlayer(Player player) {
+    String sql = "UPDATE PLAYER SET Name = ?, Nationality = ?, " +
+                "Birth_date = ?, Titles = ? WHERE ID = ?";
+
+    return jdbcTemplate.update(sql, new Object[]{
+                                    player.getName(),
+                                    player.getNationality(),
+                                    new Timestamp(player.getBirthDate().getTime()),
+                                    player.getTitles(),
+                                    player.getId()} );
+}
+
+execution in run method from implementing CommandLineRunner in app
+logger.info("Updating Player 4: {}", dao.updatePlayer(new Player(
+							4, "Roger Federer", "Swiss",
+							Date.valueOf("2000-02-27"), 104)));
