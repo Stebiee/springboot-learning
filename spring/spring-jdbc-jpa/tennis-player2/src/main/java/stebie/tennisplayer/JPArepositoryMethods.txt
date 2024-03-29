@@ -1,0 +1,89 @@
+some methods provided by JpaRepository to simplify CRUD operations
+save(), findById(), findAll(), deleteById() etc.
+
+Player implements some CRUD operations, if more entities were added to the project
+like Coach, and Tournament, then would have to write the same code for CRUD operations and plug a diff. entity type
+
+the methods implemented as part of CRUD are all generic methods.
+
+Spring Data identified this duplication of code when writing repositories and created some predefined repos
+developer provides the entity type and its primary key and Spring Data comes up with the CRUD methods
+Spring Data JPA adds a layer of abstraction over the JPA provider (Hibernate) in this app
+
+JpaRepository interface extends the Repository interface. it contains the API provided by CrudRepository
+as well as the PagingAndSortingRepository for CRUD operations along with pagination and sorting of records
+representation of interface implementations
+                       <<interface>>
+                       Repository<T.ID>
+                             /\
+                             |
+                             |
+                       <<interface>>
+                       CrudRepository<T, ID>
+                             /\
+                             |
+                             |
+                       <<interface>>
+                       PagingAndSortingRepository<T, ID>
+                             /\
+                             |
+                             |
+                       <<interface>>
+                       JpaRepository<T, ID>
+
+JpaRepository interface
+    will create an interface that extends JpaRepository
+    will be called PlayerSpringDataRepository
+    need to specify the entity that will be managed as well as the primary key of the entity
+    import org.springframework.data.jpa.repository.JpaRepository;
+
+    public interface PlayerSpringDataRepository extends JpaRepository<Player, Integer>{
+
+      //no implementation required!
+    }
+
+    simply extending the JpaRepository, will get all basic CRUD operations without implementing them
+
+    to use the repository will create a copy of the app and autowire PlayerSpringDataRepository interface
+    in place of PlayerRepository
+
+save()
+    to insert and update an object Spring Data has a save() method that works in the same way as merge() from EntityManager
+
+    to insert a new object
+    repo.save(new Object())
+
+    to update an object, retrieve the object, update it and then save it
+
+    warning .get() can throw an error if element is not found
+    Player player = repo.findById(2).get();
+    player.setTitles(player.getTitles() + 1);
+    logger.info("\n\n>> Updated id 2 titles; {}", repo.save(player));
+
+findById()
+    takes the primary key and returns an object
+    repo.findById(2);
+
+findAll()
+    returns all objects in the table
+    repo.findAll();
+
+deleteById()
+    Spring Data takes the primary key and deletes the object from the table
+    repo.deleteById(2);
+
+if the methods above are used, app can run without any change in the output
+
+using Spring Data the same application can be run without the need for implementing any CRUD operations
+JpaRepository provides methods to perform those operations, reducing boilerplate code
+compare player repository to the spring data version
+
+the CRUD methods in Spring Data are annotated with @Transactional. spring data can parse a method name and create queries
+below is a method findByNationality in the PlayerSpringDataRepository
+for which has no provided implementation. this method name is converted to the following JPQL query using JPA Criteria API
+    public List<Player> findByNationality(String nationality);
+    is
+    select p from Player p where p.nationality = ?1
+
+keywords like And, Or, GreaterThan, LessThan, Like, IsNull, Not, etc. can be used in the method name
+and OrderBy clause can be used to sort the results

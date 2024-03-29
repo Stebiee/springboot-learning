@@ -1,0 +1,33 @@
+learn about the changes required to change the data source
+covering replacement of the H2 dependency
+configuring the property values
+
+an in-memory H2 db is easy to set up and use. time to learn how to switch to another db
+some examples would be switching to Oracle, MySql, or SQL server databases
+Spring Boot makes this process straight forward
+add some dependencies and change some property values
+assuming the database is installed and the schema is properly populated
+
+Replacing the H2 dependency
+    remove the H2 dependency from the pom.xml file
+    replace it with the dependency of the db chosen
+    if wanting to connect the MySql dependency is
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+Config property values
+    for any db, URL, username, and password need to be configured in application.properties
+
+    since schema is already created, and do not want Hibernate to create it set it to none
+    spring.jpa.hibernate.ddl-auto=none
+        other options would be, create-only, drop, create, validate, update
+        create, Hibernate would look at the entities and create the schema itself (drops the previous schema)
+
+    spring.datasource.url = jdbc:mysql://localhost:3306/movie_example
+    spring.datasource.username = demo
+    spring.datasource.password = demo
+
+    After making these changes, restart the app and Spring Boot will connect to the database
+

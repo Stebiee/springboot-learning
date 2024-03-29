@@ -23,7 +23,7 @@ public class TennisPlayerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// inserting players
+		/*// inserting players
 		logger.info("\n\n>> Inserting Player: {}\n", repo.insertPlayer(
 				new Player("Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81)));
 
@@ -42,5 +42,7 @@ public class TennisPlayerApplication implements CommandLineRunner {
 		// deleting player
 		logger.info("\n\n>> Deleting Player with id 1\n");
 		repo.deletePlayerById(1);
+
+		logger.info("\n\n>> All Players: {}\n", repo.getAllPlayers());*/
 	}
 }

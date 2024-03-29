@@ -1,0 +1,29 @@
+learning to write a named query in JPQL, java persistence query language
+    a named query is defined on an entity, the Player class
+    the named query will be used in the getAllPlayers() method
+
+@NamedQuery(name="", query="")
+    to create a named query, use the @NamedQuery annotation on object
+    the annotation has two attributes, name and query
+
+    when using JPA, will write queries in JPQL instead of SQL
+    jpql uses entities in place of tables since we want to return a list of Player objects
+    query will be "SELECT p FROM Player p"
+
+    @Entity
+    @NamedQuery(name = "get_all_players", query = "select p from Player p")
+    public class Player
+
+    this named query will be used in the getAllPlayers() method
+
+    getAllPlayers() method will use the createNamedQuery() method from entityManager
+    pass the name of the query and specify what the query will return
+    prev. defined name of the query as get_all_players() which returns objects of Player class
+    the createNamedQuery() method will return a TypedQuery, which will assign to a variable called getAll
+    then getAll.getResultList() is used to return a list of players
+
+    public List<Player> getAllPlayers() {
+        TypedQuery<Player> getAll = entityManager.createNamedQuery("get_all_players", Player.class);
+
+        return getAll.getResultList();
+    }
