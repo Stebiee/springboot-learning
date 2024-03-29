@@ -1,20 +1,36 @@
 package stebie.tennisplayer;
 
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+import java.sql.Date;
+
+@Entity
 public class Player {
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
     private String nationality;
     private Date birthDate;
     private int titles;
 
-    // no arg constructor required by BeanPropertyRowMapper
     public Player() {
+
     }
 
-    public Player(int id, String name, String nationality, Date birthDate, int titles) {
-        this.id = id;
+    public Player(String name, String nationality, Date birthDate, int titles){
+        super();
+        this.name = name;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.titles = titles;
+    }
+
+    public Player(int id, String name, String nationality, Date birthDate, int titles){
+        super();
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;
@@ -25,36 +41,36 @@ public class Player {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public int getTitles() {
-        return titles;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public int getTitles() {
+        return titles;
     }
 
     public void setTitles(int titles) {

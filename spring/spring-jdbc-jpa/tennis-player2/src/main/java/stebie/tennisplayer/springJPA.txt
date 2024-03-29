@@ -1,0 +1,41 @@
+JDBC required the dev to write queries, map values to the query, pass a set of parameters
+to execute the query, and map rows of the result set to a bean.
+
+simple queries
+    this is a manageable task, but for large applications with hundreds of tables
+    queries become complex
+    writing and maintaining those queries becomes too difficult
+    leading to the Java Persistence API
+
+How Java Persistence API works
+    JPA doesn't involve writing queries and then mapping the data back.
+    it creates entities that are java objects which map to a row in a database table.
+    JPA creates a schema based on the entities and defines relationships between entities.
+
+*   Object Relational Mapping (ORM) layer maps the objects to a database table
+        App      |       |(ORM Layer)    |         |
+      Entities   |-----> |JPA Layer      |-------> | Relational Database
+    Java Classes |       |JDBC Layer(SQL)|         |
+
+    using JPA, can map a Java class or bean to a table
+    the members of the class map are columns in the table
+    when this mapping is defined, JPA can write queries on its own, it takes the responsibility
+    of creating and executing queries for CRUD operations.
+    this is because operations performed on a database are identical and can be generalized.
+    the types of objects change based on the database schema but operations remain the same
+
+                                            Database
+    Entity                | <--JPA--> id(PK),   col1,   col2,   ..
+    @old                  |             |        |       |       |
+    private int id;       | <-----------|        |       |       |
+    private String col1;  | <--------------------|       |       |
+    private String col2;  | <----------------------------|       |
+    private String col..; | <------------------------------------|
+
+JPA Implementations
+    Hibernate, is a popular ORM framework is why JPA was created as a standard to Object Relational Mapping (ORM)
+    it is an interface that defines a set of annotations for creating the object relational mapping
+    there are numerous implementations of the JPA interface like Hibernate, EclipseLink, Apache OpenJPA
+    Hibernate being the most popular framework as its light weight and can be easily integrated with Spring
+    benefits of JPA instead of Hibernate is JPA being a standard and one can switch to any other implementation later
+

@@ -1,0 +1,51 @@
+creating an entity and look at the diff. annotations
+
+JPA dependency
+    to use Spring JPA add the starter JPA dependency to the pom.xml
+    <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    this API defines many annotations like
+        @Entity
+        @Column
+        @Table
+    Hibernate is an implementation of the JPA API which automatically gets configured in the app
+    the hibernate-core should be in the Maven Dependencies folder
+
+@Entity
+    the Player class lists attributes ofa tennis player
+    JPA needs to be told the objects of this class need to be mapped to a table in a db
+    JPA will create a table with the same name as the class and columns for all the members of the class
+    every instance of the Player class will become a row in the table
+*   make no-arg, arg-without id, and all-arg constructors
+*   as well as getters and setters for fields and toString
+
+@Table(name="otherName")
+    if the class should be mapped to a table with a different name this annotation is used
+    provide the name for the table to which the bean maps to
+
+@Id and @GeneratedValue
+    every table in a relational database has a primary key.
+    the Id attribute uniquely identifies each object
+    @Id is used to indicate the primary key
+    JPA can also generate the primary key when rows are inserted
+    @GeneratedValue will automatically generate Id values
+
+    now whenever a new row is inserted Id does not need to be given.
+
+
+@Column(name="columnName")
+    is used to define the column mappings
+    it mentions the name of the column that matches an attribute in the class
+    example:
+        @Column(name="player_name")
+        private String name;
+
+    this annotation wouldn't be needed if the column name and attribute are identical
+
+JPA schema creation
+    Spring Boot autoconfiguration triggers a schema update and creates a table by the same name
+    as the class marked with @Entity
+    with JPA the table does not need to be created schema.sql is commented out

@@ -1,3 +1,4 @@
+/*
 CREATE TABLE Player (
     ID INTEGER NOT NULL,
     Name VARCHAR(255) NOT NULL,
@@ -5,4 +6,4 @@ CREATE TABLE Player (
     Birth_Date TIMESTAMP,
     Titles INTEGER,
     PRIMARY KEY (ID)
-);
+);*/

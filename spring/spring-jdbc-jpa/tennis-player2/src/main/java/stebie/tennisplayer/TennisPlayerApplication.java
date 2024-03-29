@@ -7,14 +7,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.Date;
+
 
 @SpringBootApplication
 public class TennisPlayerApplication implements CommandLineRunner {
-
+	@Autowired
+	PlayerRepository repo;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	PlayerDao dao;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TennisPlayerApplication.class, args);
@@ -22,21 +23,20 @@ public class TennisPlayerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-			testPlayerByNationality();
-	}
+		// inserting players
+		logger.info("\n\n>> Inserting Player: {}\n", repo.insertPlayer(
+				new Player("Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81)));
 
-	private void testDelete() {
-		// deleting a player
-		logger.info("\nBefore delete: {}", dao.getAllPlayers());
-		logger.info("Deleting Player with ID 2: {}", dao.deletePlayerById(2));
-		logger.info("\nAfter delete: {}", dao.getAllPlayers());
-	}
+		logger.info("\n\n>> Inserting Player: {}\n", repo.insertPlayer(
+				new Player("Monfils", "France", Date.valueOf("1986-09-01"), 10)));
 
-	private void testTableCreation() {
-		dao.createTournamentTable();
-	}
+		// finding player by id
+		logger.info("\n\n>> Player with id 2: {}\n", repo.findPlayerById(2));
 
-	private void testPlayerByNationality() {
-		logger.info("\nFrench Players2: {}", dao.getPlayerByNationality("France"));
+		// updating player
+		Player player = repo.findPlayerById(2);
+		player.setBirthDate(Date.valueOf("1990-09-01"));
+		logger.info("\n\n>> Updating id 2 DOB: {}\n", repo.updatePlayer(player));
+		logger.info("\n\n>> Player with id 2: {}\n", repo.findPlayerById(2));
 	}
 }

@@ -1,0 +1,70 @@
+CRUD, Create, Read, Update, Delete
+
+EntityManager.merge(Object obj)
+    method for INSERT, UPDATE queries
+
+    EntityManager offers a merge() method for both INSERT and UPDATE operations.
+    merge() checks if the primary key value is being passed to it or not. if it finds the primary key
+    it updates the corresponding record
+    if the primary key is not passed, it generates a value and inserts a new record in the table
+
+    returns the Object passed
+
+    logic for insertPlayer() and updatePlayer() are the same, difference is the arguments passed to merge()
+    public Player insertPlayer(Player player) {
+        return entityManager.merge(player);
+    }
+
+    public Player updatePlayer(Player player) {
+
+        return entityManager.merge(player);
+    }
+    // updating player
+    		Player player = repo.findPlayerById(2);
+    		player.setBirthDate(Date.valueOf("1990-09-01"));
+    		logger.info("\n\n>> Updating id 2 DOB: {}\n", repo.updatePlayer(player));
+    		logger.info("\n\n>> Player with id 2: {}\n", repo.findPlayerById(2));
+
+Execution of query
+CommandLineRunner.run(), application extends CommandLineRunner
+    in order to execute insertPlayer, we will autowire PlayerRepository in the Application
+    class and set it to  call methods in run()
+
+    @Autowired
+    PlayerRepository repo;
+
+    @Override
+    public void run(String... args) throws Exception {
+      logger.info("\n\n>> Inserting Player: {}\n", repo.insertPlayer(
+                  new Player("Djokovic", "Serbia", Date.valueOf("1987-05-22"), 81)));
+
+      logger.info("\n\n>> Inserting Player: {}\n", repo.insertPlayer(
+                  new Player("Monfils", "France", Date.valueOf("1986-09-01"), 10)));
+    }
+
+    this will insert two rows in the player table
+    no id attribute is needed to be passed, as Hibernate will auto generate it.
+
+show-sql property
+    two rows have been inserted in the db without writing queries
+    to see the queries that Hibernate has executed, we can set the property spring.jpa.show-sql=true
+    in application.properties file
+
+EntityManager.find() for SELECT query
+    another way to confirm  insert is to implement the
+    getPlayerById()
+    this returns a player based on the primary key value
+
+    find(ClassName.class, primaryKeyValue)
+    EntityManager offers a number of find() methods.
+    pick one that takes the name of the class and the primary key as arguments
+
+    public Player getPlayerById(int id) {
+        return entityManager.find(Player.class, id);
+    }
+
+    like merge the find() method also creates the sql query and maps values to it on its own.
+    it also converts the row returned to a Player object
+    getPlayerById() is called in run() from the application
+
+EntityManager.remove() for DELETE query

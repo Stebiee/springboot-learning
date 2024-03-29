@@ -1,0 +1,32 @@
+creating a repository, a class which manages entities
+
+@Repository
+    PlayerRepository class is created to manage the Player entity
+    and to store and retrieve data
+
+Enable transaction management
+@Transactional
+    db queries contain multiple steps.
+    enabling transaction management allows all steps to succeed
+    if there is an error or runtime exception, all steps will be rolled back
+    transactions are implemented in the business layer, but for this app is done at repository level.
+    Spring provides all boilerplate to start, commit, and roll back a transaction, can be integrated with JPA's transaction management
+    this is done with the Transactional annotation
+
+    using this annotation on the PlayerRepository class, means methods will be executed within a transactional context
+    if there is INSERT, UPDATE in a single method
+    EntityManager will keep track of both of them, if one fails whole op. is rolled back
+
+EntityManager
+@PersistenceContext
+    a JPA EntityManager manages connection to a database as well as to db operations
+    it is also associated with a PersistenceContext
+    all operations that are performed in a specific session are stored inside the PersistenceContext
+    EntityManager is the interface to the persistence context
+    all operations on the entity go through the EntityManager
+
+    creating entity manager in repository class
+    @PersistenceContext
+    EntityManager entityManager;
+
+    EntityManager provides a number of methods which perform, select, insert, update, and delete queries
