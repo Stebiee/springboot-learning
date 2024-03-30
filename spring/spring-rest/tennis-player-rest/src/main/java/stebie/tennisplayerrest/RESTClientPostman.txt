@@ -1,0 +1,23 @@
+installing and use the REST client, Postman
+
+creating a REST Service, to test our service, need a client tool to send HTTP requests to our REST API to view responses
+
+there are many REST client tools for testing REST APIs like Curl, a cli, and postman the gui tool
+
+Installing Postman
+    https://www.postman.com/downloads/
+    snap install postman
+
+    top part of the screen if for HTTP requests and the bottom part shows the HTTP responses
+    different request methods like GET, POST, PUT are available from the dropdown list
+    you can also view the headers, authorization items, and status codes
+
+    to send a request using Postman select the HTTP method from the dropdown list, then type the request URL
+    if the request sends some data to the server (POST, PUT), it can be added by selecting the "Body" option 
+    can also set the format in which data is sent. the request is sent by hitting "Send"
+
+    the response from the REST service is displayed in the bottom part of the screen 
+    it shows the status code and may contain some data in the body as well
+
+    simple GET requests can be done in browser, postman is well suited for other types of requests
+    like posting JSON data, setting content type, passing over request headers, and auth.

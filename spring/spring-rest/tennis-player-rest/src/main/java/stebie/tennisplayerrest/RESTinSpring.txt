@@ -1,0 +1,79 @@
+***Developing Rest services in spring
+learn about the basics concepts of REST  and Spring's supports of RESTful web services
+
+
+Rest support in spring 
+	spring framework is a very good choice for creating REST apps
+	it provides specialized annotations that make RESTful app dev easy
+	some examples include
+		@RestController
+		@ResponseBody
+		@ResponseStatus
+		
+	Spring also automatically handls Jackson integration which makes conversion of data
+	from JSON to POJO and vice versa
+	any JSON data recieved by the controller is automatically converted to a POJO
+	any POJO returned by the controller is converted to JSON 
+	
+	
+What is REST 
+	 REST, REpresentational State Transfer 
+	 it provides a mechanism for communication  between applications
+	 in the REST architecture, the client and server are implemented independently 
+	 and they do not depend on one another.
+	 REST is language independent so the client and server applications can use 
+	 different programming languages 
+	 this givs REST applications alot of flexibility
+	 
+	          request 
+	          (URL + HTTP method)
+	 Client|----------------------->|Server
+	       |                        |
+	 Client|<-----------------------|Server
+	           Response
+	           (JSON)
+	       
+	 the RESt architecure is stateless meaning that the client only manages the session 
+	 state and the server only manages the resouce state
+	 the communication between the client and server is such that every request
+	 contains all the information necessary to interpret it wihtout any previous context
+	 
+	 both the client and server know the communication format and are able to understand 
+	 the message sent by the other side. 
+	 REST calls can be made over HTTP
+	 the client can send an HTTP request message to the server where it is processed 
+	 and an HTTP response is sent back
+	 
+	 HTTP Request Message           HTTP Response Message
+	 Request Line                   Request Line
+	 Request Header                 Request Header
+	 Request Body                   Request Body 
+	 
+	 The request message has three parts:
+	 	the request line contains HTTP method like (GET or POST)
+	 	
+	 	the request header contains data with additional info about the request
+	 	
+	 	request body contains the contents of the message
+	 		ex if POST, request body contains the contents of entity to create
+	 		
+	 The response message has three parts 
+	 	response line contains the status code for success or redirection etc.
+	 	
+	 	response header contains additional info about the response 
+	 		like content type and size of the response 
+	 		the client can render the data based on the content type 
+	 		so if it is text/html it is disp. according to html tags 
+	 		app/json or app/xml gets processed accordingly
+	 		
+	 	response body contains the actual message sent in response to the request
+	 	
+	 the HTTP methods for CRUD operations are: 
+	 	POST, for creating a resource
+	 	
+	 	GET, for reading a resource
+	 	
+	 	PUT, for updating a resouce 
+	 	
+	 	DELETE, for deleting a resource
+	 	

@@ -1,0 +1,37 @@
+basic principles for REST API and create one with Spring Initializer
+
+will build a REST API that performs CRUD operations make use of previous tennis player project
+to create a RESET API to perform CRUD operations on the data stored in the in-memory H2 db
+
+REST API design 
+    this REST API will expose endpoints which allow a REST client to perform the following functions
+        get a list of players
+        get a player by id
+        add a new player
+        update an existing player
+        update the titles of a player
+        delete a player
+    
+    will make use of the HTTP GET, POST, PUT, PATCH, DELETE methods to perform these operations
+    to create service endpoints for our REST API, we need to identify the entity (main resource)
+    which is the most notable noun from the requirements listed. the requirements show that is is player
+
+    a REST API design convention is to use the plural of the entity as the endpoint, so we will use /players
+
+    following table shows the HTTP methods and their REST endpoints for the corresponding CRUD operations
+    Operation               HTTP Method          URL
+    Create a player         POST                 /players
+    Show all players        GET                  /players
+    Show player by ID       GET                  /players/{id}
+    Update a player         PUT                  /players/{id}
+    Partial update player   PATCH                /players/{id}
+    Delete a player         DELETE               /players/{id}
+
+    no action words like show or create are in the endpoints 
+    rather the HTTP method, like GET and POST defines the action to be performed
+
+    creating a proj. with spring Initializer
+    dependencies 
+        spring-webmvc 
+        jackson-databind
+        
