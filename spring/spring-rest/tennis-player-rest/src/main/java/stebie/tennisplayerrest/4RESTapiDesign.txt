@@ -1,0 +1,92 @@
+basic principles for REST API and create one with Spring Initializer
+
+will build a REST API that performs CRUD operations make use of previous tennis player project
+to create a RESET API to perform CRUD operations on the data stored in the in-memory H2 db
+
+REST API design 
+    this REST API will expose endpoints which allow a REST client to perform the following functions
+        get a list of players
+        get a player by id
+        add a new player
+        update an existing player
+        update the titles of a player
+        delete a player
+    
+    will make use of the HTTP GET, POST, PUT, PATCH, DELETE methods to perform these operations
+    to create service endpoints for our REST API, we need to identify the entity (main resource)
+    which is the most notable noun from the requirements listed. the requirements show that is is player
+
+    a REST API design convention is to use the plural of the entity as the endpoint, so we will use /players
+
+    following table shows the HTTP methods and their REST endpoints for the corresponding CRUD operations
+    Operation               HTTP Method          URL
+    Create a player         POST                 /players
+    Show all players        GET                  /players
+    Show player by ID       GET                  /players/{id}
+    Update a player         PUT                  /players/{id}
+    Partial update player   PATCH                /players/{id}
+    Delete a player         DELETE               /players/{id}
+
+    no action words like show or create are in the endpoints 
+    rather the HTTP method, like GET and POST defines the action to be performed
+
+    creating a proj. with spring Initializer
+    dependencies 
+        spring web
+        h2 database
+        spring data jpa
+        spring devtools
+
+Data source configuration
+    spring boot auto configures data source using the pom.xml file
+    where the spring-boot-starter-data-jpa and h2 dependencies are added
+    set up the data source url with
+    spring.datasource.url = jdbc:h2:mem:testdb
+
+Entity Player class
+    create a Player class for our REST API
+    @Entity annotation is used to map the class to a db table
+    name of the table is the same as the class, unless otherwise specified
+    we will store the players id, name, nationality, date of birth and number of titles as private fields
+    and set the no arg and arg constructors
+    as well as the setters, getters and toString methods
+
+    @Id annotation is used to specify the primary key of the table
+    @GeneratedValue defines manner in which values are generated
+    by default dates are saved as Timestamp by Hibernate
+    when we annotate the birthDate field with
+    @JsonFormat, Jackson will use the provided format for serializing and deserializing the field
+
+
+Database initialization
+    Hibernate can generate the DDL based on the spring.jpa.hibernate.ddl-auto property
+    will use create-drop as its value in the application.properties file
+
+    spring.jpa.hibernate.ddl-auto=create-drop
+    spring.h2.console.enabled=true
+    spring.jpa.show-sql=true
+
+    spring.jpa.show-sql property when set to true, shows the queries used by Hibernate when creating the db
+    db is populated using the import.sql file placed at the root of the classpath
+    this file is executed on startup
+    INSERT INTO player (ID, Name, Nationality, Birth_date, Titles) VALUES(1,'Djokovic', 'Serbia', '1987-05-22', 81);
+    INSERT INTO player (ID, Name, Nationality, Birth_date, Titles) VALUES(2,'Monfils', 'France', '1986-09-01', 10);
+    INSERT INTO player (ID, Name, Nationality, Birth_date, Titles) VALUES(3,'Isner', 'USA', '1985-04-26', 15);
+
+Creating a repository
+    will create an interface PlayerRepository.java which extends the JpaRepository interface
+    and provides the entity and the data type of the primary key
+    import org.springframework.data.jpa.repository.JpaRepository;
+
+    public interface PlayerRepository extends JpaRepository <Player, Integer> {
+    }
+    by extending the JpaRepository all basic CRUD operations like findAll(), findById(), save(), deleteById()
+    are available without the need of implementing these methods
+
+Service layer
+    best practice, will introduce a service layer on top of the repository interface.
+    will create a class PlayerService.java and use
+    @Service to indicate that this class belongs to the service layer
+
+    to use the PlayerRepository in the service layer autowire it
+    and then delegate that this class belongs to the service layer

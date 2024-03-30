@@ -1,0 +1,36 @@
+learn how to create GET mapping in the REST service that returns a list of POJOs as JSON
+
+@GetMapping
+    from now on will build a REST service that provides basic CRUD functionality
+
+    client sends an HTTP request to the REST service.
+    dispatcher servlet handles the request and if the request has JSON data
+    the HttpMessageConverter converts it to Java objects
+    request is mapped to a controller which calls service layer methods
+    service layer delegates the call to repository and returns the data as POJO
+    MessageConverter converts the data to JSON and it is sent back to the client
+    flow of request below
+               REST API        App Layer        Service Layer         Repository        Database
+    client---->Dispatcher----->Controller------->Hibernate------------>JpaRepository----> H2
+                Servlet
+
+    client<------HttpsMessage<---Controller<-----Hibernate------------>JpaRepository----> H2
+                  Converter
+
+    this lesson will create an endpoint for retrieving the list of players from the db
+    the REST client will send a request to /players
+    the REST service will respond with a JSON array of all players
+
+    REST client ------>/players -------> REST server
+    REST client<------JSON array<------- REST server
+
+    will write the code for the REST service to return List of Player objects when it receives a /player request
+    REST API will automatically convert that list of POJOs to JSON when it finds Jackson on the classpath
+    and JSON response is returned to the client
+
+Defining PlayerService class
+    in order to retrieve the list of players from the db, will write a method getAllPlayers() in the PlayerService class
+    this method will call a repository method and return a list of objects
+    public List<Player> getAllPlayers() {
+        // call repository method
+    }

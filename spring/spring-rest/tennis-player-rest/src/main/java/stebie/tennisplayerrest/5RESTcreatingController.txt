@@ -1,0 +1,26 @@
+create a controller to map requests to our REST API
+covering @RestController, adding request mapping, testing the RESTful endpoint
+
+will create a REST service with a request mapping /welcome and send it a request
+from a REST client (web browser or Postman), the service then responds with a welcome message
+
+@RestController
+   create PlayerController class with the annotation @RestController
+        is extension of the @Controller,
+        has support for REST requests and responses
+        automatically handles the data binding between java POJOS and JSON
+
+   Adding request mapping
+        next, set up a mapping for the request using the @GetMapping annotation
+
+        @GetMapping("/welcome")
+        public String welcome() {
+            return "Tennis Player REST API";
+        }
+        this code creates a RESTful endpoint /test-api which can be accessed from the REST client
+        and returns the message to the client
+        @GetMapping is discussed later
+
+   Testing the RESTful endpoint
+        will test the REST endpoint with a web browser as well as Postman.
+        and access the results at localhost:8080/test-api through Postman or browser
