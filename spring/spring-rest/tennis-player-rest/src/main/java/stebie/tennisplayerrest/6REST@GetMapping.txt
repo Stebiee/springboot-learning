@@ -31,6 +31,18 @@ learn how to create GET mapping in the REST service that returns a list of POJOs
 Defining PlayerService class
     in order to retrieve the list of players from the db, will write a method getAllPlayers() in the PlayerService class
     this method will call a repository method and return a list of objects
+
+    note interface PlayerRepository extends JpaRepository which provides CRUD operation methods
+
+getAllPlayers() method in PlayerService class
     public List<Player> getAllPlayers() {
-        // call repository method
+        repo.findAll(); // findAll() returns List of objects
     }
+
+    now service layer is set up, move to the controller and create a method which /players request will be mapped to
+    getAllPlayers() will be called on /players
+    @GetMapping annotation is used to map /players request to getAllPlayers() method
+        is shortcut for @RequestMapping(method=RequestMethod.GET)
+
+    the controller method calls the service layer method getAllPlayers()
+    will auto wire PlayerService in the controller class to have access to service methods

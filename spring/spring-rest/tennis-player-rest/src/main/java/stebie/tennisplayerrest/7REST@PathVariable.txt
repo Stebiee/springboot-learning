@@ -1,0 +1,61 @@
+learning path variables for parameterizing REST endpoints
+covering, finById(), @PathVariable, error handling
+
+will create a new endpoint for the REST API to retrieve a single player based on the id field
+will fetch the required player from the Player table
+
+Path variables are a way of parameterizing the path or endpoint to accept data
+    are written in curly braces
+    when client sends a request, it passes a value in place of the path variable
+
+    example: /players/1 returns player with id 1
+    REST client sends a request to /players/{playerId} where {playerId} is the path variable
+
+    JpaRepository interface gives CRUD operations
+    write a service method to call the repo
+    getPlayer()
+        takes int id as argument
+        returns Player object
+
+    to retrieve an entity based on the id
+    findById() is provided by JpaRepository
+        returns an Optional object
+
+    Optional is a design pattern from Java 8, where instead of writing code to check for null values
+    check to see if a value is present in the Optional object
+    findById() {
+         return repo.findById(id); // results in a type mismatch error
+    }
+
+    create a temp variable to store the result of findById()
+
+    create a Player object p = null
+
+    check if temp variable is present using isPresent()
+        if not present, throw run time exception
+
+    get() can be used to retrieve the value and assign it to p
+
+    p is then returned to the client
+
+    this approach used Optional to explicitly check for null values
+
+    JpaRepository alternatively provides the getOne() method which returns an object
+         this throws EntityNotFoundException if the object DNE
+         but this method null values need explicit checking
+
+    in the controller class method getPlayer() is created for retrieving a player based on id
+    @GetMapping("/players/{id}")
+        the curly braces indicate a path variable
+        Jackson does the JSON conversion
+
+    @PathVariable
+        since there is a path variable in the endpoint
+        need to bind it with a method parameter
+        the annotation binds the path var {} from the URL to the method parameter
+            by default both names have to match for binding to work
+
+Error handling
+    if a GET request is sent for a player record which is not present in the list
+    or the user enters a character in place of an int for the path variable
+    app will throw an error
